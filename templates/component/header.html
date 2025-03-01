@@ -1,0 +1,36 @@
+<div class="main-header">
+    <div class="main-navbar fixed-top">
+        <h2>BookSeller.com</h2>
+        <div class="menu-navbar">
+            <a href="{% url 'home' %}" class="navbar-menu">Home</a>
+            <a href="{%  url 'contact_us' %}" class="navbar-menu">Contact Us</a>
+            <a href="{% url 'about_us' %}" class="navbar-menu">About Us</a>
+            <a href="" class="navbar-menu">My Books</a>
+            <a href="" class="navbar-menu">My Cart</a>
+        </div>
+        <icon class="header-logo">
+            {% if user.is_authenticated and user.first_name == '' %}
+            <div class="dropdown">
+                <a href="#">Welcome , {{user.username}}</a>
+                <div class="dropdown-content">
+                    <a href="{% url 'dologout' %}">Logout</a>
+                </div>
+            </div>
+            {% elif user.is_authenticated %}
+            <div class="dropdown">
+                <a href="">Welcome , {{user.first_name}}&nbsp;{{user.last_name}}</a>
+                <div class="dropdown-content">
+                    <a href="{% url 'dologout' %}">Logout</a>
+                </div>
+            </div>
+            {% else %}
+            <a href="{% url 'register' %}">
+                <button type="button" class="btn btn-outline-primary">Sing Up</button>
+            </a>
+            <a href="{% url 'dologin' %}">
+                <button type="button" class="btn btn-outline-success">Log in</button>
+            </a>
+            {% endif %}
+        </icon>
+    </div>
+</div>
