@@ -5,6 +5,9 @@ from django.core.mail import send_mail,EmailMessage
 from django.conf import settings
 from django.contrib import messages
 
+from django.contrib.auth.decorators import login_required
+from cart.cart import Cart
+
 # create your views here
 
 def HOME(request):
@@ -69,4 +72,120 @@ def ABOUT_US(request):
 
 
 def MY_CART(request):
-    return render(request, 'orders/my_cart.html')
+    book = Usercart.objects.all()
+    if request.user.is_authenticated:
+        cart_items = Usercart.objects.filter(user=request.user)
+        total_price = sum(item.get_total_price() for item in cart_items)
+        contex = {
+            'book': book,
+            'total_price': total_price,
+        }
+        return render(request, 'orders/my_cart.html',contex)
+    else:
+        return redirect('login_required')
+
+
+def ADD_CART(request,slug):
+    book = Book.objects.get(slug=slug)
+    if request.user.is_authenticated:
+        if Usercart.objects.filter(user=request.user, book=book).exists():
+            usercart = Usercart.objects.get(user=request.user, book=book)
+            usercart.quantity += 1
+            usercart.save()
+            messages.success(request, 'Book Quantity Updated.....!')
+        else:
+            usercart = Usercart(
+                user=request.user,
+                book=book,
+                quantity='1',
+            )
+            usercart.save()
+            messages.success(request, 'Book Added To Cart Successfully ....!')
+        return redirect('my_cart')
+    contex = {
+            'book': book,
+        }
+    return render(request, 'orders/my_cart.html', contex)
+
+def REMOVE_CART(request, book_id):
+    if request.user.is_authenticated:
+        book = Usercart.objects.get(book_id=book_id)
+        book.delete()
+        messages.warning(request, 'Book Remove From Cart Successfully ....!')
+        return redirect('my_cart')
+    contex = {
+            'book': book,
+        }
+    return render(request, 'orders/my_cart.html', contex)
+    
+
+
+def add_to_cart(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    cart = request.session.get('cart', {})
+
+    # Add or update the book in the cart
+    if not request.user.is_authenticated:
+        if str(book_id) in cart:
+            cart[str(book_id)]['quantity'] += 1
+            messages.success(request, 'Book Quantity Updated.....!')
+        else:
+            cart[str(book_id)] = {
+                'title': book.title,
+                'author': book.author.author_name,
+                'price': str(book.price),
+                'discount': str(book.discount),
+                'quantity': 1,
+            }
+            messages.success(request, 'Book Added To Cart Successfully ....!')
+        request.session['cart'] = cart
+        return redirect('view_cart')
+    
+
+def remove_from_cart(request, book_id):
+    cart = request.session.get('cart', {})
+
+    # Remove the book from the cart
+    if str(book_id) in cart:
+        del cart[str(book_id)]
+        messages.warning(request, 'Book Remove From Cart Successfully ....!')
+        request.session['cart'] = cart
+    return redirect('view_cart')
+
+def view_cart(request):
+    cart = request.session.get('cart', {})
+    cart_items = []
+
+    # Calculate total price and prepare cart items
+    total_price = 0
+    for book_id, item in cart.items():
+        sellprice = float(item['price'])
+        sellprice = float(item['price']) - (float(item['price']) * float(item['discount'])/100)
+        item['total_price'] = int(sellprice) * item['quantity']
+        total_price += item['total_price']
+        cart_items.append(item)
+
+    context = {
+        'cart': cart,
+        'cart_items': cart_items,
+        'total_price': total_price,
+    }
+    if not request.user.is_authenticated:
+        return render(request, 'orders/session_cart.html', context)
+    # else:
+    #     return redirect('login_required')
+    # return render(request, 'orders/my_cart.html', context)
+
+
+def LOGIN_REQUIRED(request):
+    return render(request, 'registration/login_requierd.html')
+
+def MY_BOOKS(request):
+    if request.user.is_authenticated:
+        book = Userbooks.objects.all()
+        contex = {
+            'book': book,
+        }
+        return render(request, 'orders/my_books.html', contex)
+    else:
+        return redirect('login_required')

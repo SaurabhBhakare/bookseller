@@ -18,10 +18,17 @@
                     <del>M.R.P.:₹ {{book.price}}</del><br>
                     save {{book.discount}}%
                 </p>
+                {% if user.is_authenticated %}
                 <div class="d-button">
-                    <a href=""><button>Add To Cart</button></a>
-                    <a href=""><button>Buy Now</button></a>
+                    <a href="{% url 'add_cart' book.slug %}"><button>Add To Cart</button></a>
+                    <a href="#"><button>Buy Now</button></a>
                 </div>
+                {% else %}
+                <div class="d-button">
+                    <a href="{% url 'add_to_cart' book.id %}"><button>Add To Cart</button></a>
+                    <a href="#"><button>Buy Now</button></a>
+                </div>
+                {% endif %}
                 <hr>
                 <p>Delivery within 6-8 business days</p>
                 <div class="d-icons">

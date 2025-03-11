@@ -7,11 +7,15 @@
 <div class="main-container">
   <div class="home-menu">
     <nav>
-        <ul>
-          {% for cat in some_category %}
-          <li><a href="#">{{cat.category}}</a></li>
-          {% endfor %}
-        </ul>
+      <input type="checkbox" id="catcheck">
+      <label for="catcheck" class="catbtn">
+          <p><b>All Category</b></p>
+      </label>
+      <ul>
+        {% for cat in some_category %}
+        <li><a href="#">{{cat.category}}</a></li>
+        {% endfor %}
+      </ul>
     </nav>
   </div>
   <div class="card-container">
@@ -33,6 +37,7 @@
       {% endfor %}
       </div>
     </div>
+    
     <div class="authors">
       <h2>Author Section</h2>
       <div class="row">

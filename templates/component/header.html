@@ -1,36 +1,51 @@
 <div class="main-header">
     <div class="main-navbar fixed-top">
-        <h2>BookSeller.com</h2>
-        <div class="menu-navbar">
-            <a href="{% url 'home' %}" class="navbar-menu">Home</a>
-            <a href="{%  url 'contact_us' %}" class="navbar-menu">Contact Us</a>
-            <a href="{% url 'about_us' %}" class="navbar-menu">About Us</a>
-            <a href="" class="navbar-menu">My Books</a>
-            <a href="" class="navbar-menu">My Cart</a>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+            <i class="fas fa-bars"></i>
+        </label>
+        <div class="userbtn dropdown">
+            <i class="fa-solid fa-user"></i>
+            <div class="dropdown-content">
+                <a href="{% url 'dologout' %}">Logout</a>
+            </div>
         </div>
-        <icon class="header-logo">
-            {% if user.is_authenticated and user.first_name == '' %}
-            <div class="dropdown">
-                <a href="#">Welcome , {{user.username}}</a>
-                <div class="dropdown-content">
-                    <a href="{% url 'dologout' %}">Logout</a>
-                </div>
-            </div>
-            {% elif user.is_authenticated %}
-            <div class="dropdown">
-                <a href="">Welcome , {{user.first_name}}&nbsp;{{user.last_name}}</a>
-                <div class="dropdown-content">
-                    <a href="{% url 'dologout' %}">Logout</a>
-                </div>
-            </div>
+        <h2>BookSeller.com</h2>
+        <ul>
+            <li class="{% if request.path == '/' %}active{% endif %}"><a href="{% url 'home' %}">Home</a></li>
+            <li class="{% if request.path == '/contact_us/' %}active{% endif %}"><a href="{%  url 'contact_us' %}">Contact Us</a></li>
+            <li class="{% if request.path == '/about_us/' %}active{% endif %}"><a href="{% url 'about_us' %}">About Us</a></li>
+            {% if user.is_authenticated %}
+                <li class="{% if request.path == '/my_cart/' %}active{% endif %}"><a href="{% url 'my_cart' %}">My Cart</a></li>
             {% else %}
-            <a href="{% url 'register' %}">
-                <button type="button" class="btn btn-outline-primary">Sing Up</button>
-            </a>
-            <a href="{% url 'dologin' %}">
-                <button type="button" class="btn btn-outline-success">Log in</button>
-            </a>
+                <li class="{% if request.path == '/cart/' %}active{% endif %}"><a href="{% url 'view_cart' %}">My Cart</a></li>
             {% endif %}
-        </icon>
+            <li class="{% if request.path == '/my_books/' %}active{% endif %}"><a href="{% url 'my_books' %}">My Books</a></li>
+            <icon class="header-logo">
+                {% if user.is_authenticated and user.first_name == '' %}
+                <div class="dropdown">
+                    {% comment %} <a href="#">{{user.username}}</a> {% endcomment %}
+                    <a><button type="button" class="btn btn-outline-primary">{{user.username}}</button></a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'dologout' %}">Logout</a>
+                    </div>
+                </div>
+                {% elif user.is_authenticated %}
+                <div class="dropdown">
+                    <a href="">Welcome , {{user.first_name}}&nbsp;{{user.last_name}}</a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'dologout' %}">Logout</a>
+                    </div>
+                </div>
+                {% else %}
+                <a href="{% url 'register' %}">
+                    <button type="button" class="btn btn-outline-primary">Sing Up</button>
+                </a>
+                <a href="{% url 'dologin' %}">
+                    <button type="button" class="btn btn-outline-success">Log in</button>
+                </a>
+                {% endif %}
+            </icon>
+        </ul>
     </div>
 </div>

@@ -1,0 +1,26 @@
+{% extends 'myapp/base.html' %}
+{% block title %}{{book.slug}}{% endblock %}
+{% block content %}
+{% load static %}
+{% load book_tags %}
+
+<div class="card-container">
+    <div class="row">
+      {% for bk in book %}
+      <div class="card-1">
+        <a href="{{bk.book.get_absolute_url}}">
+          <img src="{{bk.book.image.url}}" alt="Card Image" class="card-img">
+          <div class="card-content">
+            <h1>{{bk.book.title}}</h1>
+            <p id="auth">by {{bk.book.author}}</p><br>
+            <small style="color: red;">-{{bk.book.discount}}%</small>
+            <b>₹{% discount_calculation bk.book.price bk.book.discount %}</b>
+            <p>M.R.P.:<del>₹{{bk.book.price}}</del></p>
+            <p id="publi"></p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+</div>
+{% endblock %}

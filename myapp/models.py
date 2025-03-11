@@ -63,6 +63,31 @@ class Book(models.Model):
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse("book_details", kwargs={'slug': self.slug})
+
+class Usercart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+
+    def __str__(self):
+        return self.book.title
+    
+    def get_total_price(self):
+        if self.book.discount is None or self.book.discount is 0:
+            return self.book.price
+        # price = float(price)
+        # discount = float(discount)
+        sellprice = self.book.price
+        sellprice = self.book.price - (self.book.price * self.book.discount/100)
+        return int(sellprice) * self.quantity
+    
+class Userbooks(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+
+    def __str__(self):
+        return self.book.title
     
 # def create_slug(instance, new_slug=None):
 #     slug = slugify(instance.title)

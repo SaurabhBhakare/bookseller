@@ -1,13 +1,47 @@
 {% extends 'myapp/base.html' %}
-{% block title %}
-  {{ author.slug }}
-{% endblock %}
+{% block title %}My-Cart{% endblock %}
 {% block content %}
 {% load static %}
 {% load book_tags %}
 
 
-
-
+<div class="cart-container">
+    <div class="row">
+    {% include 'component/msg.html' %}
+    {% for item in book %}
+      <div class="card-a">
+        <div class="card-content">
+            <a href="{{item.book.get_absolute_url}}" class="b-title">
+                <h1>{{ item.book.title }}</h1>
+                <p id="auth">by {{ item.book.author}}</p><br>
+            </a>
+            <div class="quentity">
+                <b>Qty: {{item.quantity}}</b>
+            </div>
+            <div class="price">
+                <b>₹{% discount_calculation item.book.price item.book.discount %}</b>
+                <small style="color: red;">-{{item.book.discount}}%</small>
+                <p><small><del>M.R.P.:₹{{item.book.price}}</del></small></p>
+            </div>
+            {% if user.is_authenticated %}
+                <a href="{% url 'remove_cart' item.book_id %}" class="d-button"><button>Remove</button></a>
+            {% else %}
+                <a href="{% url 'remove_from_cart' book_id %}" class="d-button"><button>Remove</button></a>
+            {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+    <p class="t-price">
+        <h3 id="t-price">
+            Total Price: ₹{{ total_price }} 
+            {% if user.is_authenticated %}
+                <a href="#" class="d-button"><button>Place Order</button></a>
+            {% else %}
+                <a href="{% url 'login_required' %}" class="d-button"><button>Place Order</button></a>
+            {% endif %}
+        </h3>
+    </p>
+</div>
 
 {% endblock %}

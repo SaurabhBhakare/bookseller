@@ -1,0 +1,35 @@
+{% extends 'myapp/base.html' %}
+{% block title %}log in requierd{% endblock  %}
+{% block content %}
+{% load static %}
+{% load book_tags %}
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="vieport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="/static/css/login_required.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" /> 
+</head>
+    <body>
+        <div class="container">
+            <div>
+                <h1>Login Required</h1>
+                <h4>Login to your Bookseller.com Account!</h4>
+                <a href="{% url 'dologin' %}">
+                    <input type="submit" value="Login">
+                </a>
+            </div>
+        </div>
+    </body>
+</html>
+
+
+
+{% endblock %}
