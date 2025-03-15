@@ -7,8 +7,13 @@
         <div class="userbtn dropdown">
             <i class="fa-solid fa-user"></i>
             <div class="dropdown-content">
+                {% if user.is_authenticated %}
+                <a href="#">Wellcome, {{user.username}}</a>
                 <a href="{% url 'dologout' %}">Logout</a>
-            </div>
+                {% else %}
+                <a href="{% url 'dologin' %}">Log In</a>
+                {% endif %}
+            </div>            
         </div>
         <h2>BookSeller.com</h2>
         <ul>
@@ -16,15 +21,16 @@
             <li class="{% if request.path == '/contact_us/' %}active{% endif %}"><a href="{%  url 'contact_us' %}">Contact Us</a></li>
             <li class="{% if request.path == '/about_us/' %}active{% endif %}"><a href="{% url 'about_us' %}">About Us</a></li>
             {% if user.is_authenticated %}
-                <li class="{% if request.path == '/my_cart/' %}active{% endif %}"><a href="{% url 'my_cart' %}">My Cart</a></li>
+            <li class="{% if request.path == '/my_cart/' %}active{% endif %}"><a href="{% url 'my_cart' %}">My Cart</a></li>
             {% else %}
-                <li class="{% if request.path == '/cart/' %}active{% endif %}"><a href="{% url 'view_cart' %}">My Cart</a></li>
+            <li class="{% if request.path == '/cart/' %}active{% endif %}"><a href="{% url 'view_cart' %}">My Cart</a></li>
             {% endif %}
+            {% if user.is_authenticated %}
             <li class="{% if request.path == '/my_books/' %}active{% endif %}"><a href="{% url 'my_books' %}">My Books</a></li>
+            {% endif %}
             <icon class="header-logo">
                 {% if user.is_authenticated and user.first_name == '' %}
                 <div class="dropdown">
-                    {% comment %} <a href="#">{{user.username}}</a> {% endcomment %}
                     <a><button type="button" class="btn btn-outline-primary">{{user.username}}</button></a>
                     <div class="dropdown-content">
                         <a href="{% url 'dologout' %}">Logout</a>
@@ -32,7 +38,8 @@
                 </div>
                 {% elif user.is_authenticated %}
                 <div class="dropdown">
-                    <a href="">Welcome , {{user.first_name}}&nbsp;{{user.last_name}}</a>
+                    {% comment %} <a href="">Welcome , {{user.first_name}}&nbsp;{{user.last_name}}</a> {% endcomment %}
+                    <a><button type="button" class="btn btn-outline-primary">{{user.first_name}}&nbsp;{{user.last_name}}</button></a>
                     <div class="dropdown-content">
                         <a href="{% url 'dologout' %}">Logout</a>
                     </div>

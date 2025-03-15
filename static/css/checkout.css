@@ -9,19 +9,6 @@
   box-sizing: border-box;
 }
 
-/* body {
-  color: #485e74;
-  line-height: 1.6;
-  font-family: 'Yantramanav', sans-serif;
-  padding: 1em;
-}
-
-.container {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-} */
-
 ul {
   list-style: none;
   padding: 0;
@@ -50,9 +37,7 @@ ul {
   padding: 1em;
 }
 
-/* ------------------- */
 /* COMPANY INFORMATION */
-/* ------------------- */
 
 .company-info {
   background: #C3C9DD;
@@ -66,9 +51,7 @@ ul {
   margin: 0 0 1rem 0;
 }
 
-/* ------- */
 /* CONTACT */
-/* ------- */
 
 .contact {
   background: #dcdfea;
@@ -76,9 +59,7 @@ ul {
   border-bottom-right-radius: 4px;
 }
 
-/* ---- */
 /* FORM */
-/* ---- */
 
 .contact form {
   display: grid;
@@ -99,16 +80,11 @@ ul {
 }
 
 .contact form button,
-.contact form input,
-.contact form textarea {
+.contact form input{
   width: 100%;
   padding: 1em;
   border: solid 1px #627EDC;
   border-radius: 4px;
-}
-
-.contact form textarea {
-  resize: none;
 }
 
 .contact form button {
@@ -127,6 +103,39 @@ ul {
   outline: 0;
   transition: background-color 2s ease-out;
 }
+.contact form .checkbox {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.contact form .checkbox input[type="checkbox"]{
+  width: auto;
+  margin: 0;
+  margin-bottom: 8px;
+}
+
+/* order details */
+table {
+  border-collapse: collapse; 
+  width: 100%;
+}
+
+tr {
+  border-bottom: 1px solid black; 
+}
+
+td, th {
+  border: none; 
+  padding: 10px;
+}
+
+.order {
+  width: 100%;
+}
+.order tr td, .order thead{
+  padding: 10px;
+}
+
 
 /* MEDIA QUERIES */
 

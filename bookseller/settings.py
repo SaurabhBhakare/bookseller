@@ -163,3 +163,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'saurabh914691@gmail.com'
 EMAIL_HOST_PASSWORD = 'uxhr rega bzkp nsva'
+
+
+
+SECRET_KEY = 'rzp_test_NxYmoUXw458tQa'
+SECRET_ID = 'OOcBZz6ZukSjaifYexhLwaod'

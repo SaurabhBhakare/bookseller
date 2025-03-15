@@ -8,6 +8,15 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from cart.cart import Cart
 
+import razorpay
+from time import time
+from django.views.decorators.csrf import csrf_exempt
+from .settings import *
+
+secreate_key = settings.SECRET_KEY
+secreate_id = settings.SECRET_ID
+
+
 # create your views here
 
 def HOME(request):
@@ -72,7 +81,7 @@ def ABOUT_US(request):
 
 
 def MY_CART(request):
-    book = Usercart.objects.all()
+    book = Usercart.objects.filter(user=request.user)
     if request.user.is_authenticated:
         cart_items = Usercart.objects.filter(user=request.user)
         total_price = sum(item.get_total_price() for item in cart_items)
@@ -89,15 +98,14 @@ def ADD_CART(request,slug):
     book = Book.objects.get(slug=slug)
     if request.user.is_authenticated:
         if Usercart.objects.filter(user=request.user, book=book).exists():
-            usercart = Usercart.objects.get(user=request.user, book=book)
-            usercart.quantity += 1
-            usercart.save()
-            messages.success(request, 'Book Quantity Updated.....!')
+            messages.success(request, 'Book already exists in cart.....!')
+        elif Userbooks.objects.filter(user=request.user, book=book).exists():
+            messages.success(request, 'Book already exists in Mybooks.....!')
+            return redirect("my_books")
         else:
             usercart = Usercart(
                 user=request.user,
                 book=book,
-                quantity='1',
             )
             usercart.save()
             messages.success(request, 'Book Added To Cart Successfully ....!')
@@ -127,15 +135,13 @@ def add_to_cart(request, book_id):
     # Add or update the book in the cart
     if not request.user.is_authenticated:
         if str(book_id) in cart:
-            cart[str(book_id)]['quantity'] += 1
-            messages.success(request, 'Book Quantity Updated.....!')
+            messages.success(request, 'Book Already exists in Cart.....!')
         else:
             cart[str(book_id)] = {
                 'title': book.title,
                 'author': book.author.author_name,
                 'price': str(book.price),
                 'discount': str(book.discount),
-                'quantity': 1,
             }
             messages.success(request, 'Book Added To Cart Successfully ....!')
         request.session['cart'] = cart
@@ -161,7 +167,7 @@ def view_cart(request):
     for book_id, item in cart.items():
         sellprice = float(item['price'])
         sellprice = float(item['price']) - (float(item['price']) * float(item['discount'])/100)
-        item['total_price'] = int(sellprice) * item['quantity']
+        item['total_price'] = int(sellprice)
         total_price += item['total_price']
         cart_items.append(item)
 
@@ -172,9 +178,6 @@ def view_cart(request):
     }
     if not request.user.is_authenticated:
         return render(request, 'orders/session_cart.html', context)
-    # else:
-    #     return redirect('login_required')
-    # return render(request, 'orders/my_cart.html', context)
 
 
 def LOGIN_REQUIRED(request):
@@ -182,10 +185,96 @@ def LOGIN_REQUIRED(request):
 
 def MY_BOOKS(request):
     if request.user.is_authenticated:
-        book = Userbooks.objects.all()
+        book = Userbooks.objects.filter(user=request.user)
         contex = {
             'book': book,
         }
         return render(request, 'orders/my_books.html', contex)
     else:
         return redirect('login_required')
+
+def CHECKOUT(request, book_id):
+    action = request.GET.get('action')
+    if request.user.is_authenticated:
+        book = Usercart.objects.get(book_id=book_id,user=request.user)
+        discount_mrp = int((book.book.price * book.book.discount)/100)
+        if request.method == 'POST':
+            name = request.POST.get('fname')
+            email = request.POST.get('email')
+            phone = request.POST.get('phone')
+            amount = (int(book.book.price) - int(discount_mrp)) * 100
+
+            note = {
+                'name': name,
+                'email': email,
+                'phone': phone,
+            }
+            client = razorpay.Client(auth=(secreate_key, secreate_id))
+            receipt = f"Bookseller-{int(time())}"
+            order = client.order.create(dict(amount=amount, currency='INR'))
+
+            # Save Payment in DB
+            payment = Payment(
+                user=request.user,
+                book=book.book,
+                amount=amount/100,
+                order_id=order.get('id'),
+            )
+            payment.save()
+
+            # Pass order details to the template
+            context = {
+                'order': order,
+                'book': book,
+                }
+            return render(request, 'checkout/checkout.html', context)
+        contex = {
+            'book': book,
+            'discount_mrp': discount_mrp,
+        }
+        return render(request, 'checkout/checkout.html', contex)
+    else:
+        return redirect('login_required')
+    
+
+
+@csrf_exempt
+def VERIFY_PAYMENT(request):
+    if request.method == "POST":
+        data = request.POST
+        print("Payment Verification Data:", data)
+        try:
+            params_dict = {
+                'razorpay_order_id': data.get('razorpay_order_id'),
+                'razorpay_payment_id': data.get('razorpay_payment_id'),
+                'razorpay_signature': data.get('razorpay_signature'),
+            }
+            client = razorpay.Client(auth=(secreate_key, secreate_id))
+
+            # Verify Razorpay signature
+            client.utility.verify_payment_signature(params_dict)
+            razorpay_order_id = data['razorpay_order_id'],
+            razorpay_payment_id = data['razorpay_payment_id'],
+
+
+            # Fetch the payment record
+            payment = Payment.objects.get(order_id=data['razorpay_order_id'])
+            payment.payment_id = data['razorpay_payment_id']
+            payment.status = True
+            userbook = Userbooks(
+                user=payment.user,
+                book=payment.book,
+            )
+            userbook.save()
+            payment.user_book = userbook
+            payment.save()
+            usercart = Usercart.objects.get(book=payment.book,user=request.user)
+            usercart.delete()
+
+            context = {
+                'data': data,
+                'payment': payment,
+            }
+            return render(request, 'verify_payment/success.html',context)
+        except:
+            return render(request,'verify_payment/fail.html')

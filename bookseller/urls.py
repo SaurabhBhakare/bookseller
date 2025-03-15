@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from django.urls import path, include
 from myapp import user_login
@@ -22,6 +21,8 @@ urlpatterns = [
     path('my_cart/', views.MY_CART, name='my_cart'),
     path('my_books/', views.MY_BOOKS, name='my_books'),
     path('login_required/', views.LOGIN_REQUIRED, name='login_required'),
+    path('checkout/<int:book_id>', views.CHECKOUT, name='checkout'),
+    path('verify_payment/', views.VERIFY_PAYMENT, name='verify_payment'),
 
 
 

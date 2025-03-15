@@ -67,10 +67,9 @@ class Book(models.Model):
 class Usercart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
 
     def __str__(self):
-        return self.book.title
+        return self.user.first_name + "-" + self.book.title
     
     def get_total_price(self):
         if self.book.discount is None or self.book.discount is 0:
@@ -79,16 +78,32 @@ class Usercart(models.Model):
         # discount = float(discount)
         sellprice = self.book.price
         sellprice = self.book.price - (self.book.price * self.book.discount/100)
-        return int(sellprice) * self.quantity
+        return int(sellprice)
     
 class Userbooks(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
 
     def __str__(self):
-        return self.book.title
+        return self.user.first_name + "-" + self.book.title
     
+class Payment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)
+    user_book = models.ForeignKey(Userbooks, on_delete=models.CASCADE, null=True)
+    amount = models.FloatField(null=True)
+    order_id = models.CharField(max_length = 250, unique=True,null=True)
+    payment_id = models.CharField(max_length = 250, null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.user.first_name + "-" + self.book.title
+    
+
+
+
+
 # def create_slug(instance, new_slug=None):
 #     slug = slugify(instance.title)
 #     if new_slug is not None:

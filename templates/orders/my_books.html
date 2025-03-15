@@ -1,9 +1,10 @@
 {% extends 'myapp/base.html' %}
-{% block title %}{{book.slug}}{% endblock %}
+{% block title %}My-Books{% endblock %}
 {% block content %}
 {% load static %}
 {% load book_tags %}
 
+{% include 'component/msg.html' %}
 <div class="card-container">
     <div class="row">
       {% for bk in book %}

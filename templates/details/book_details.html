@@ -22,11 +22,12 @@
                 <div class="d-button">
                     <a href="{% url 'add_cart' book.slug %}"><button>Add To Cart</button></a>
                     <a href="#"><button>Buy Now</button></a>
+                    {% comment %} <a href="{% url 'checkout' book.id %}" class="d-button"><button>Buy Now</button></a> {% endcomment %}
                 </div>
                 {% else %}
                 <div class="d-button">
                     <a href="{% url 'add_to_cart' book.id %}"><button>Add To Cart</button></a>
-                    <a href="#"><button>Buy Now</button></a>
+                    <a href="{% url 'login_required' %}"><button>Buy Now</button></a>
                 </div>
                 {% endif %}
                 <hr>

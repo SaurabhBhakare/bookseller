@@ -7,313 +7,62 @@
     justify-content: center; /* Center align cards */
     padding: 16px;
 }
-@media(min-width:1024px){
-    
+.card-container .row .my-cart{
+    min-height: 550px;
+}
+.card-container .row .session-cart{
+    min-height: 270px;
+    padding: 10px;
+}
+.card-container .row .my-cart h1{
+    margin-bottom: 0px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}   
+.card-container .row .my-cart .card-content {
+    height: 170px;
+    margin-left: 15px;
+    font-size: 18px;
+    /* padding: 10px; */
+}
+.card-container .row .my-cart .card-content #auth{
+    margin: 0;
+    padding: 0;
 }
 
-@media(min-width: 750px) and (max-width: 1024px){
-    
+.my-cart .my-cart-btn{
+    width: 100%;
+    padding: 10px 0 5px 10px;
+    margin-left: 10px;
+    display: flex;
+}
+.my-cart .my-cart-btn .d-button a{
+    width: 100%;
+}
+#t-price{
+    text-align: center;
 }
 
-
-
-@media(max-width: 750px) and (min-width: 500px){
-    
-}
-
-
-
-@media(max-width: 500px){
-    
-}
-
-
-
-
-@media (max-width: 480px) {  
-    /* Styles for small mobile screens */
-    .cart-container .card-a{
-        width: 25rem;
-        min-height: 130px;
-        margin: 20px;
-        margin-left: 10%;
-        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 25px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-    }
-    .cart-container .row{
-        justify-content: center; /* Center align cards */
-    }
-
-    .cart-container .card-a a{
-        text-decoration: none;
-        color: inherit;
-    }
-    .cart-container .card-a a:hover, a:focus, a:active {
-        text-decoration: none; 
-        color: inherit;        
-    }
-    .cart-container .card-a h1{
-        margin-bottom: 15px;
-        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    }
-    .cart-container .card-content {
-        margin-left: 15px;
-        font-size: 18px;
-        display: flex;
-        padding-top: 20px;
-    }
-    .cart-container .card-content .b-title{
-        width: 50%;
-        height: 100px;
-    }
-    .cart-container .card-content .price{
-        width: 30%;
-        height: 100px;
-        text-align: center;
-        margin-top: 10px;
-    }
-    .cart-container .card-content a{
-        width: 20%;
-        height: 100px;
-        margin-top: 0;
-    }
-    .cart-container #auth{
-        color: chocolate;
-        font-family: fantasy;
-    }
-    del{
-        color: grey;
-    }
-    .cart-container .card-a button{
-        height: 40px;   
-        border: none;
-        background-color: grey;
-        font-size: 18px;
-        font-family: fantasy;
-    }
-    .cart-container .card-a button:hover{
-        background-color: chocolate;
-    }
-    .cart-container .row #t-price{
-        text-align: right;
-        margin-right: 20px;
-    }
-}
-@media (min-width: 481px) and (max-width: 768px) {  
-/* Styles for tablets (portrait mode) */
-    .cart-container .card-a{
-        width: 30rem;
-        min-height: 130px;
-        margin: 20px;
-        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 25px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-    }
-    .cart-container .row{
-        justify-content: center; /* Center align cards */
-    }
-
-    .cart-container .card-a a{
-        text-decoration: none;
-        color: inherit;
-    }
-    .cart-container .card-a a:hover, a:focus, a:active {
-        text-decoration: none; 
-        color: inherit;        
-    }
-    .cart-container .card-a h1{
-        margin-bottom: 15px;
-        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    }
-    .cart-container .card-content {
-        margin-left: 15px;
-        font-size: 18px;
-        display: flex;
-        padding-top: 20px;
-    }
-    .cart-container .card-content .b-title{
-        width: 50%;
-        height: 100px;
-    }
-    .cart-container .card-content .price{
-        width: 30%;
-        height: 100px;
-        text-align: center;
-        margin-top: 10px;
-    }
-    .cart-container .card-content a{
-        width: 20%;
-        height: 100px;
-        margin-top: 0;
-    }
-    .cart-container #auth{
-        color: chocolate;
-        font-family: fantasy;
-    }
-    del{
-        color: grey;
-    }
-    .cart-container .card-a button{
-        height: 40px;   
-        border: none;
-        background-color: grey;
-        font-size: 18px;
-        font-family: fantasy;
-    }
-    .cart-container .card-a button:hover{
-        background-color: chocolate;
-    }
-    .cart-container .row #t-price{
-        text-align: right;
-        margin-right: 20px;
-    }
-}
-@media (min-width: 769px) and (max-width: 1024px) {  
-/* Styles for tablets (landscape mode) and small laptops */
-    .cart-container .row{
-        justify-content: center; /* Center align cards */
-    }
-    .cart-container .card-a{
-        width: 40rem;
-        height: 130px;
-        margin: 20px;
-        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 25px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-    }
-
-    .cart-container .card-a a{
-        text-decoration: none;
-        color: inherit;
-    }
-    .cart-container .card-a a:hover, a:focus, a:active {
-        text-decoration: none; 
-        color: inherit;        
-    }
-    .cart-container .card-a h1{
-        margin-bottom: 15px;
-        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    }
-    .cart-container .card-content {
-        margin-left: 15px;
-        font-size: 18px;
-        display: flex;
-        padding-top: 20px;
-    }
-    .cart-container .card-content .b-title{
-        width: 50%;
-        height: 100px;
-    }
-    .cart-container .card-content .price{
-        width: 30%;
-        height: 100px;
-        text-align: center;
-        margin-top: 10px;
-    }
-    .cart-container .card-content a{
-        width: 20%;
-        height: 100px;
-        margin-top: 0;
-    }
-    .cart-container #auth{
-        color: chocolate;
-        font-family: fantasy;
-    }
-    del{
-        color: grey;
-    }
-    .cart-container .card-a button{
-        height: 40px;   
-        border: none;
-        background-color: grey;
-        font-size: 18px;
-        font-family: fantasy;
-    }
-    .cart-container .card-a button:hover{
-        background-color: chocolate;
-    }
-    .cart-container .t-price{
-        
-        text-align: right;
-        margin-right: 20px;
-    }
-}
-@media (min-width: 1025px){  
+@media only screen and (min-width: 700px){  
 /* Styles for desktops */
-        .cart-container .row{
+    .cart-container .row{
         justify-content: center; /* Center align cards */
     }
-    .cart-container .card-a{
-        width: 60rem;
-        height: 130px;
-        margin: 20px;
-        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 25px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    #t-price{
+        text-align: center;
     }
-
-    .cart-container .card-a a{
-        text-decoration: none;
-        color: inherit;
-    }
-    .cart-container .card-a a:hover, a:focus, a:active {
-        text-decoration: none; 
-        color: inherit;        
-    }
-    .cart-container .card-a h1{
-        margin-bottom: 15px;
-        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    }
-    .cart-container .card-content {
-        margin-left: 15px;
-        font-size: 18px;
+    .my-cart .my-cart-btn{
+        width: 100%;
+        padding: 10px 0 5px 10px;
+        margin-left: 10px;
         display: flex;
-        padding-top: 20px;
     }
-    .cart-container .card-content .b-title{
-        width: 40%;
-        height: 100px;
-        margin-left: 20px;
-    }
-    .cart-container .card-content .quentity{
-        width: 10%;
-        height: 100px;
-        text-align: center;
-        margin-top: 10px;
-    }
-    .cart-container .card-content .price{
-        width: 25%;
-        height: 100px;
-        text-align: center;
-        margin-top: 10px;
-    }
-    .cart-container .card-content a{
-        width: 25%;
-        height: 100px;
-        margin-top: 0;
-    }
-    .cart-container #auth{
-        color: chocolate;
-        font-family: fantasy;
-    }
-    del{
-        color: grey;
-    }
-    .cart-container .card-a button{
-        height: 40px;   
-        border: none;
-        background-color: grey;
-        font-size: 18px;
-        font-family: fantasy;
-    }
-    .cart-container .card-a button:hover{
-        background-color: chocolate;
-        transition: 0.5s;
-        -webkit-transition: 0.5s;
-        -moz-transition: 0.5s;
-        -ms-transition: 0.5s;
-        -o-transition: 0.5s;
-}
-    .cart-container .t-price{
-        
-        text-align: right;
-        margin-right: 20px;
+    .my-cart .my-cart-btn .d-button a{
+        width: 100%;
     }
 }
   
 /* 
 @media (min-width: 1025px) and (max-width: 1440px) {  
+}
+@media only screen and (min-width: 700px) {
 } */
