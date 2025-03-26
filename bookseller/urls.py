@@ -23,6 +23,7 @@ urlpatterns = [
     path('login_required/', views.LOGIN_REQUIRED, name='login_required'),
     path('checkout/<int:book_id>', views.CHECKOUT, name='checkout'),
     path('verify_payment/', views.VERIFY_PAYMENT, name='verify_payment'),
+    path('profile/', views.USER_PROFILE, name='profile'),
 
 
 

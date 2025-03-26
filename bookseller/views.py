@@ -278,3 +278,25 @@ def VERIFY_PAYMENT(request):
             return render(request, 'verify_payment/success.html',context)
         except:
             return render(request,'verify_payment/fail.html')
+
+def USER_PROFILE(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        email = request.POST.get('email')
+
+        if User.objects.filter(username=username).exists() and not username==request.user.username:
+            messages.warning(request, 'Username already exists')
+            return redirect('profile')
+        if User.objects.filter(email=email).exists() and not email==request.user.email:
+            messages.warning(request, 'email already exists')
+            return redirect('profile')
+        user = request.user
+        user.first_name = fname
+        user.last_name = lname
+        user.email = email
+        user.save()
+        messages.success(request, 'Profile updated successfuly...!')
+        return redirect('profile')
+    return render(request, 'registration/profile.html')

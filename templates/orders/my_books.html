@@ -17,10 +17,10 @@
             <small style="color: red;">-{{bk.book.discount}}%</small>
             <b>₹{% discount_calculation bk.book.price bk.book.discount %}</b>
             <p>M.R.P.:<del>₹{{bk.book.price}}</del></p>
-            <p id="publi"></p>
           </div>
         </a>
-      </div>
+        <a href="#"><button type="button" class="btn btn-secondary">Read Now</button></a>
+        </div>
       {% endfor %}
     </div>
 </div>

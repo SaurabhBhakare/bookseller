@@ -8,7 +8,7 @@
             <i class="fa-solid fa-user"></i>
             <div class="dropdown-content">
                 {% if user.is_authenticated %}
-                <a href="#">Wellcome, {{user.username}}</a>
+                <a href="{% url 'profile' %}">Wellcome, {{user.username}}</a>
                 <a href="{% url 'dologout' %}">Logout</a>
                 {% else %}
                 <a href="{% url 'dologin' %}">Log In</a>
@@ -33,14 +33,15 @@
                 <div class="dropdown">
                     <a><button type="button" class="btn btn-outline-primary">{{user.username}}</button></a>
                     <div class="dropdown-content">
+                        <a href="{% url 'profile' %}">Profile</a>
                         <a href="{% url 'dologout' %}">Logout</a>
                     </div>
                 </div>
                 {% elif user.is_authenticated %}
                 <div class="dropdown">
-                    {% comment %} <a href="">Welcome , {{user.first_name}}&nbsp;{{user.last_name}}</a> {% endcomment %}
                     <a><button type="button" class="btn btn-outline-primary">{{user.first_name}}&nbsp;{{user.last_name}}</button></a>
                     <div class="dropdown-content">
+                        <a href="{% url 'profile' %}">Profile</a>
                         <a href="{% url 'dologout' %}">Logout</a>
                     </div>
                 </div>
