@@ -1,0 +1,42 @@
+{% extends 'myapp/base.html' %}
+{% block title %}
+  Profile
+{% endblock %}
+{% block content %}
+{% load static %}
+
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="vieport" content="width=device-width, initial-scale=1.0" />
+      <title>Register Form</title>
+      <link rel="stylesheet" href="/static/css/register.css" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    </head>
+    <body>
+      <div class="container">
+        <form class="b1" method="post" action="{% url 'profile' %}">
+          {% csrf_token %}
+          <h1>Profile</h1>
+          <h4>Manage Your Profile!</h4>
+          {% include 'component/msg.html' %}
+          <label for="username"><i class="fa-sharp fa-solid fa-user"></i>Username</label><br />
+          <input type="text" id="username" value="{{ request.user.username }}" name="username" required /><br />
+
+          <label for="fname"><i class="fa-sharp fa-solid fa-user"></i>First Name</label><br />
+          <input type="text" id="fname" value="{{ request.user.first_name }}" name="fname" required /><br />
+
+          <label for="lname"><i class="fa-sharp fa-solid fa-user"></i>Last Name</label><br />
+          <input type="text" id="lname" value="{{ request.user.last_name }}" name="lname" required /><br />
+
+          <label for="email"><i class="fa-solid fa-envelope"></i>email</label><br />
+          <input type="text" id="email" value="{{ request.user.email }}" name="email" required /><br />
+
+          <input type="submit" value="Save Profile" />
+          <p></p>
+        </form>
+      </div>
+    </body>
+  </html>
+{% endblock %}

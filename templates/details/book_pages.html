@@ -1,0 +1,80 @@
+{% extends 'myapp/base.html' %}
+{% block title %}
+  {{ book.title }}
+{% endblock %}
+{% block content %}
+  <button id="fullscreen-btn" class="btn btn-primary mt-3 position-fixed" data-toggle="tooltip" title="Enter FullScreen"><i class="fa-solid fa-expand"></i></button>
+  <button id="exit-fullscreen-btn" class="btn btn-danger mt-3 position-fixed" style="display: none;" data-toggle="tooltip" title="Exit FullScreen"><i class="fa-solid fa-compress"></i></button>
+  <div class="container">
+    <div class="page-container">
+      {% for page in pages %}
+        <div class="page">
+          <img src="{{ page.image.url }}" alt="Page {{ page.page_number }}" style="width: 100%; height: auto;" />
+          <p style="text-align: center;">Page {{ page.page_number }}</p>
+        </div>
+      {% endfor %}
+      {% include 'component/msg.html' %}
+    </div>
+  </div>
+  <script>
+    document.addEventListener('contextmenu', function (e) {
+      e.preventDefault()
+    })
+    
+    document.addEventListener('keydown', function (e) {
+      if (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'p' || e.key === 'Shift')) {
+        e.preventDefault()
+      }
+    })
+    
+    document.addEventListener('dragstart', function (e) {
+      e.preventDefault()
+    })
+    
+    document.addEventListener('copy', function (e) {
+      e.preventDefault()
+    })
+  </script>
+
+  <script>
+    document.getElementById('fullscreen-btn').addEventListener('click', function () {
+      let elem = document.documentElement // Select the entire document
+    
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen()
+      } else if (elem.mozRequestFullScreen) {
+        // Firefox
+        elem.mozRequestFullScreen()
+      } else if (elem.webkitRequestFullscreen) {
+        // Chrome, Safari, and Opera
+        elem.webkitRequestFullscreen()
+      } else if (elem.msRequestFullscreen) {
+        // Internet Explorer/Edge
+        elem.msRequestFullscreen()
+      }
+    
+      // Show exit button and hide enter button
+      document.getElementById('fullscreen-btn').style.display = 'none'
+      document.getElementById('exit-fullscreen-btn').style.display = 'block'
+    })
+    
+    document.getElementById('exit-fullscreen-btn').addEventListener('click', function () {
+      if (document.exitFullscreen) {
+        document.exitFullscreen()
+      } else if (document.mozCancelFullScreen) {
+        // Firefox
+        document.mozCancelFullScreen()
+      } else if (document.webkitExitFullscreen) {
+        // Chrome, Safari, and Opera
+        document.webkitExitFullscreen()
+      } else if (document.msExitFullscreen) {
+        // Internet Explorer/Edge
+        document.msExitFullscreen()
+      }
+    
+      // Show enter button and hide exit button
+      document.getElementById('fullscreen-btn').style.display = 'block'
+      document.getElementById('exit-fullscreen-btn').style.display = 'none'
+    })
+  </script>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'myapp/base.html' %}
+{% block title %}
+  Home
+{% endblock %}
+{% block content %}
+  {% load static %}
+  {% load book_tags %}
+
+  <div class="main-container">
+    <div class="home-menu">
+      <nav>
+        <input type="checkbox" id="catcheck" />
+        <label for="catcheck" class="catbtn">
+          <p>
+            <b>All Category</b>
+          </p>
+        </label>
+        <ul>
+          {% for cat in some_category %}
+            <li>
+              <a href="#">{{ cat.category }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+    <div class="card-container">
+      <div class="row">
+        {% for bk in book %}
+          <div class="card-1">
+            <a href="{{ bk.get_absolute_url }}">
+              <img src="{{ bk.image.url }}" alt="Card Image" class="card-img" />
+              <div class="card-content">
+                <h1>{{ bk.title }}</h1>
+                <p id="auth">by {{ bk.author }}</p><br />
+                <b>₹{% discount_calculation bk.price bk.discount %}</b>
+                <small style="color: red;">-{{ bk.discount }}%</small>
+                <p>
+                  <small><del>M.R.P.:₹{{ bk.price }}</del></small>
+                </p>
+                <p id="publi"></p>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="authors">
+      <h2>Author Section</h2>
+      <div class="row">
+        {% for auth in author %}
+          <div class="author-container">
+            <a href="{{ auth.get_absolute_url }}">
+              <img src="{{ auth.author_profile.url }}" alt="Author image" />
+              <h3>{{ auth.author_name }}</h3>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

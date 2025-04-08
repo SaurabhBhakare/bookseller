@@ -1,0 +1,35 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+{% load static %}
+{% block title %}Login{% endblock %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="vieport" content="width=device-width, initial-scale=1.0">
+    <title>Register Form</title>
+    <link rel="stylesheet" href="/static/css/login.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" /> 
+</head>
+    <body>
+        <div class="container">
+            <form class="b1" method="post" action="{% url 'dologin' %}">
+                {% csrf_token %}
+                <h1>Login</h1>
+                <h4>Login to your Bookseller.com Account!</h4>
+                {% include 'component/msg.html' %}
+                <label for="email"><i class="fa-solid fa-envelope"></i>Enter your email</label><br>
+                <input type="text" id="email" placeholder="Email" name="email" required><br>
+                <label for="pass"><i class="fa-solid fa-lock"></i>Enter password</label><br>
+                <input type="password" id="pass" placeholder="*******" name="password" required><br>
+                <input type="checkbox" id="check-box">
+                <label for="check-box">Remember me</label>
+                <a href="{% url 'password_reset' %}" id="ank">Forgot password?</a><br>
+                <input type="submit" value="Login">
+                <p>Don't have account? <a href="{% url 'register' %}"> Signup</a></p>
+            </form>
+        </div>
+    </body>
+</html>
+{% endblock %}

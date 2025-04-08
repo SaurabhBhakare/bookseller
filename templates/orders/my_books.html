@@ -1,0 +1,31 @@
+{% extends 'myapp/base.html' %}
+{% block title %}
+  My-Books
+{% endblock %}
+{% block content %}
+  {% load static %}
+  {% load book_tags %}
+
+  {% include 'component/msg.html' %}
+  <div class="card-container">
+    <div class="row">
+      {% for bk in book %}
+        <div class="card-1">
+          <a href="{{ bk.book.get_absolute_url }}">
+            <img src="{{ bk.book.image.url }}" alt="Card Image" class="card-img" />
+            <div class="card-content">
+              <h1>{{ bk.book.title }}</h1>
+              <p id="auth">by {{ bk.book.author }}</p><br />
+              <small style="color: red;">-{{ bk.book.discount }}%</small>
+              <b>₹{% discount_calculation bk.book.price bk.book.discount %}</b>
+              <p>
+                M.R.P.:<del>₹{{ bk.book.price }}</del>
+              </p>
+            </div>
+          </a>
+          <a href="{% url 'view_book_pages' bk.book.id %}"><button type="button" class="btn btn-secondary">Read Now</button></a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

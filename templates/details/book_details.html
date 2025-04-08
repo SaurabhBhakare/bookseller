@@ -1,0 +1,111 @@
+{% extends 'myapp/base.html' %}
+{% block title %}{{book.slug}}{% endblock %}
+{% block content %}
+{% load static %}
+{% load book_tags %}
+
+
+<div class="container">
+    <div class="detail-contener">
+        <div class="upper-box">
+            <div class="cover-img"><img src="{{book.image.url}}" alt="img not found"></div>
+            <div class="details">
+                <h1>{{book.title}}</h1>
+                <p id="auth-d">by {{book.author}}</p>
+                <p>{{book.publisher}}</p>
+                <p>
+                    <b> ₹ {% discount_calculation book.price book.discount %} </b><br>
+                    <del>M.R.P.:₹ {{book.price}}</del><br>
+                    save {{book.discount}}%
+                </p>
+                {% if user.is_authenticated %}
+                <div class="d-button">
+                    <a href="{% url 'add_cart' book.slug %}"><button>Add To Cart</button></a>
+                    <a href="{% url 'view_book_pages' book.id %}"><button>Read Now</button></a>
+                    {% comment %} <a href="{% url 'checkout' book.id %}" class="d-button"><button>Buy Now</button></a> {% endcomment %}
+                </div>
+                {% else %}
+                <div class="d-button">
+                    <a href="{% url 'add_to_cart' book.id %}"><button>Add To Cart</button></a>
+                    <a href="{% url 'view_book_pages' book.id %}"><button>Read Now</button></a>
+                    {% comment %} <a href="{% url 'login_required' %}"><button>Buy Now</button></a> {% endcomment %}
+                </div>
+                {% endif %}
+                <hr>
+                <p>Delivery within 6-8 business days</p>
+                <div class="d-icons">
+                    <i class="bi bi-truck"></i>
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <i class="fa-solid fa-wallet"></i>
+                    <i class="fa-solid fa-lock"></i>
+                    <div class="d-logo">
+                        <pre>  Free 
+Delivery</pre> 
+                        <pre>    7 Days 
+  replacement</pre> 
+                        <pre>  Cash on 
+  Delivery</pre> 
+                        <pre>  Secure 
+Transaction</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="d-description">
+            <h3>Description</h3>
+            <div class="dropdown">
+                <p>{{book.short_desc}}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="d-otherdetails">
+            <h3>Other Details</h3>
+            <p id="otherdetails">Author - {{book.author}}<br>
+                Publisher - {{book.publisher}}<br>
+                Edition - {{book.edition}}<br>
+                Binding - Paperback<br>
+                Language - {{book.language}}<br>
+                Pages - 368<br>
+                Condition - Gently Used<br>
+                ISBN: {{book.isbn}}</p>                            
+        </div>
+        <hr>
+        <div class="d-description">
+            <h3>About Author</h3>
+            <div class="dropdown">
+                <div class="author-container">
+                    <img src="{{book.author.author_profile.url}}" alt="Author image">
+                  </div>
+                <h4>{{book.author.author_name}}</h4>
+                <p>{{book.author.about}}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="d-description">
+            <h4>Related Books</h4>
+            <div class="card-container">
+                <div class="row">
+                  {% for bk in all_books %}
+                  <div class="card-1">
+                    <a href="{{bk.get_absolute_url}}">
+                      <img src="{{bk.image.url}}" alt="Card Image" class="card-img">
+                      <div class="card-content">
+                        <h1>{{bk.title}}</h1>
+                        <p id="auth">by {{bk.author}}</p><br>
+                        <small style="color: red;">-{{bk.discount}}%</small>
+                        <b>₹{% discount_calculation bk.price bk.discount %}</b>
+                        <p>M.R.P.:<del>₹{{bk.price}}</del></p>
+                        <p id="publi"></p>
+                      </div>
+                    </a>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

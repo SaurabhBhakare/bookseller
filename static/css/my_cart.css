@@ -1,0 +1,68 @@
+
+/* Card styling */
+.cart-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Space between cards */
+    justify-content: center; /* Center align cards */
+    padding: 16px;
+}
+.card-container .row .my-cart{
+    min-height: 550px;
+}
+.card-container .row .session-cart{
+    min-height: 270px;
+    padding: 10px;
+}
+.card-container .row .my-cart h1{
+    margin-bottom: 0px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}   
+.card-container .row .my-cart .card-content {
+    height: 170px;
+    margin-left: 15px;
+    font-size: 18px;
+    /* padding: 10px; */
+}
+.card-container .row .my-cart .card-content #auth{
+    margin: 0;
+    padding: 0;
+}
+
+.my-cart .my-cart-btn{
+    width: 100%;
+    padding: 10px 0 5px 10px;
+    margin-left: 10px;
+    display: flex;
+}
+.my-cart .my-cart-btn .d-button a{
+    width: 100%;
+}
+#t-price{
+    text-align: center;
+}
+
+@media only screen and (min-width: 700px){  
+/* Styles for desktops */
+    .cart-container .row{
+        justify-content: center; /* Center align cards */
+    }
+    #t-price{
+        text-align: center;
+    }
+    .my-cart .my-cart-btn{
+        width: 100%;
+        padding: 10px 0 5px 10px;
+        margin-left: 10px;
+        display: flex;
+    }
+    .my-cart .my-cart-btn .d-button a{
+        width: 100%;
+    }
+}
+  
+/* 
+@media (min-width: 1025px) and (max-width: 1440px) {  
+}
+@media only screen and (min-width: 700px) {
+} */

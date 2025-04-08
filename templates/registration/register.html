@@ -1,0 +1,35 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Register{% endblock %}
+{% block content %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="vieport" content="width=device-width, initial-scale=1.0">
+    <title>Register Form</title>
+    <link rel="stylesheet" href="/static/css/register.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" /> 
+</head>
+    <body>
+        <div class="container">
+            <form class="b1" method="post">
+                {% csrf_token %}
+                <h1>Signup</h1>
+                <h4>Sign Up and Start Reading!</h4>
+                {% include 'component/msg.html' %}
+                <label for="username"><i class="fa-sharp fa-solid fa-user"></i>Enter Username</label><br>
+                <input type="text" id="username" placeholder="Username" name="username" required><br>
+                <label for="email"><i class="fa-solid fa-envelope"></i>Enter your email</label><br>
+                <input type="text" id="email" placeholder="Email" name="email" required><br>
+                <label for="pass"><i class="fa-solid fa-lock"></i>Enter password</label><br>
+                <input type="password" id="pass" placeholder="*******" name="password" required><br>
+                <input type="submit" value="Sing Up">
+                <p>Already have an account? <a href="{% url 'dologin' %}">Log in</a></p>
+            </form>
+        </div>
+    </body>
+</html>
+{% endblock %}

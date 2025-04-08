@@ -1,0 +1,78 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Payment Success{% endblock %}
+{% block content %}
+{% load static %}
+{% load book_tags %}
+
+
+
+<div class="container py-8 py-lg-11">
+    <div class="row">
+        <div class="col-xl-8 mx-xl-auto">
+            <div class="row justify-content-center mt-5">
+                <i class="fa-regular fa-circle-check text-center" aria-hidden="true" style="font-size:100px;color: #4eb927;"></i>
+            </div>
+            <header class="entry-header mt-4">
+                <h1 class="entry-title text-center">Order received</h1>
+                <p class="text-center">Thank you. Your order has been received.</p>
+            </header>
+            <div class="row border border-info p-4">
+                <div class="col-lg-3 xl-3">
+                    Order ID: <br>
+                    <strong>{{payment.order_id}}</strong>
+                </div>
+                <div class="col-lg-3 xl-3">
+                    Date:<br>
+                    <strong>{{payment.date}}</strong>
+                </div>
+                <div class="col-lg-3 xl-3">
+                    Total:<br>
+                    <strong>{{ payment.book.price }}</strong>
+                </div>
+                <div class="col-lg-3 xl-3">
+                    Payment method: <br>
+                    <strong>Check payments</strong>
+                </div>
+            </div>
+            <br>
+            <div class="row p-4 border border-dark">
+                <h4 class="mb-3">Order details</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th class="text-end">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{payment.book.title}}</td>
+                            <td class="text-end">₹ {{payment.book.price}}</td>
+                        </tr>
+                        <tr>
+                            <td>Discount</td>
+                            <td class="text-end">{{payment.book.discount}}%</td>
+                        </tr>
+                        <tr>
+                            <th>Subtotal:</th>
+                            <th class="text-end">₹ {% discount_calculation payment.book.price payment.book.discount %}</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Payment method:</strong></td>
+                            <td class="text-end">Online payments</td>
+                        </tr>
+                        <tr>
+                            <th>Total:</th>
+                            <th class="text-end">₹ {% discount_calculation payment.book.price payment.book.discount %}</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row justify-content-center">
+                <a href="{% url 'home' %}" class="btn btn-primary mt-3 mb-3" style="width:20%;">Go to home</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

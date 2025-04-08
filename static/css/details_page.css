@@ -1,0 +1,90 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
+
+.detail-contener{
+    width: 100%;
+    margin: 50px 0 20px 0;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.upper-box{
+    display: flex;
+}
+.cover-img{
+    width: 50%;
+    min-height: 500px;
+    
+}
+.cover-img img{
+    margin: 45px;
+    width: 80%;
+    height: auto;
+}
+.details{
+    width: 50%;
+    min-height: 500px;
+    background-color: white;
+}
+.details{
+    padding: 35px 50px;
+    /* line-height: 25px; */
+    
+}
+.details h1{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.details #auth-d{
+    color: chocolate;
+    font-size: 20px;
+    font-family: fantasy;
+}
+.details b{
+    color: chocolate;
+    font-size: 20px;
+}
+.d-button {
+    width: 100%;
+    margin: 15px 0 15px;
+}
+.d-button button{
+    width: 80%;
+    height: 35px;
+    margin-top: 5px;
+    background-color: grey;
+    font-size: 18px;
+    border: none;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.d-button button:hover{
+    background-color: chocolate;
+}
+.d-icons{
+    margin: 20px 0 10px;
+}
+.d-icons i{
+    padding: 0 30px 0 25px;
+    font-size: 40px;
+    color: chocolate;
+}
+.d-logo{
+    display: flex;
+}
+.d-logo pre{
+    
+    margin: 0 8px 10px 8px;
+    margin-left: 10px;
+}
+.d-description, .d-otherdetails{
+    padding: 30px;
+}
+.dropdown{
+    margin-left: 10px;
+    text-align: justify;
+}
+#otherdetails{
+    margin-left: 10px;
+}
+
+
+@media (max-width: 768px){
+    
+}
