@@ -48,16 +48,20 @@
 
     <div class="authors">
       <h2>Author Section</h2>
-      <div class="row">
-        {% for auth in author %}
-          <div class="author-container">
-            <a href="{{ auth.get_absolute_url }}">
-              <img src="{{ auth.author_profile.url }}" alt="Author image" />
-              <h3>{{ auth.author_name }}</h3>
-            </a>
-          </div>
-        {% endfor %}
+      <div class="slider-wrapper">
+        <div class="row d-flex justify-content-between">
+          {% for auth in author %}
+            <div class="author-container">
+              <a href="{{ auth.get_absolute_url }}">
+                <img src="{{ auth.author_profile.url }}" alt="Author image" />
+                <h3>{{ auth.author_name }}</h3>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
+    
+
   </div>
 {% endblock %}

@@ -25,6 +25,7 @@ urlpatterns = [
     path('verify_payment/', views.VERIFY_PAYMENT, name='verify_payment'),
     path('profile/', views.USER_PROFILE, name='profile'),
     path('view_pages/<int:book_id>/', views.VIEW_BOOK_PAGES, name='view_book_pages'),
+    path('book/<slug:slug>/add_review/', views.add_review, name='add_review'),
 
     # path for cart
     path('add/<int:book_id>/', views.add_to_cart, name='add_to_cart'),
@@ -32,6 +33,10 @@ urlpatterns = [
     path('cart/', views.view_cart, name='view_cart'),
 
     path("verify-email/<uidb64>/<token>/",user_login.verify_email, name="verify-email"),
+    path('legal/privacy_policy/', views.PRIVACY_POLICY, name="privacy_policy"),
+    path('legal/refund_cancellation/', views.REFUND_CANCELLATION, name="refund_cancellation"),
+    path('legal/tearms/', views.TEARMS, name='tearms'),
+    path('legal/disclimer/', views.DISCLIMER, name='disclimer')
 
 ]
 if settings.DEBUG:

@@ -15,7 +15,7 @@
                 {% endif %}
             </div>            
         </div>
-        <h2>BookSeller.com</h2>
+        <h2><a href="{% url 'home' %}" id="main-logo"><i class="bi bi-book-half"></i> BookSeller.com</a></h2>
         <ul>
             <li class="{% if request.path == '/' %}active{% endif %}"><a href="{% url 'home' %}">Home</a></li>
             <li class="{% if request.path == '/contact_us/' %}active{% endif %}"><a href="{%  url 'contact_us' %}">Contact Us</a></li>

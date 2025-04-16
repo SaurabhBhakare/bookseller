@@ -4,6 +4,9 @@ from myapp.models import *
 from django.core.mail import send_mail,EmailMessage
 from django.conf import settings
 from django.contrib import messages
+from django.db.models import Q          #it used for using or oprators
+from django.db.models import Count
+
 
 from django.contrib.auth.decorators import login_required
 from cart.cart import Cart
@@ -40,11 +43,28 @@ def BOOK_DETAILS(request,slug):
         convert_pdf_to_images(book)
 
     pages = book.pages.all().order_by('page_number')
-    all_books = Book.objects.all().order_by('-id')
+    reviews = Review.objects.filter(book__slug=slug)
+    # Count the number of reviews for each rating (1 to 5 stars)
+    rating_counts = (
+        reviews.values('rating')
+        .annotate(count=Count('rating'))
+        .order_by('rating')
+    )
+    # Create a dictionary to hold counts for all ratings (1 to 5 stars)
+    rating_summary = {i: 0 for i in range(1, 6)}  # Initialize 1 to 5 stars counts to 0
+    for item in rating_counts:
+        rating_summary[item['rating']] = item['count']
+
+    rating_summary = dict(sorted(rating_summary.items(), key=lambda item: item[0], reverse=True))
+
+    # all_books = Book.objects.all().order_by('-id')[0:4]
+    all_books = Book.objects.filter(Q(author=book.author) | Q(category=book.category))
     data={
         "book": book,
         "all_books": all_books,
-        "pages": pages
+        "pages": pages,
+        "reviews": reviews,
+        'rating_summary': rating_summary,
     }
     return render(request, 'details/book_details.html', data)
 
@@ -275,7 +295,7 @@ def VERIFY_PAYMENT(request):
             userbook.save()
             payment.user_book = userbook
             payment.save()
-            usercart = Usercart.objects.get(book=payment.book,user=request.user)
+            usercart = Usercart.objects.get(book=payment.book,user=payment.user)
             usercart.delete()
 
             context = {
@@ -313,9 +333,54 @@ def USER_PROFILE(request):
 def VIEW_BOOK_PAGES(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     if request.user.is_authenticated:
+        pages = book.pages.all().order_by('page_number')[0:10]
         if Userbooks.objects.filter(user=request.user, book=book_id):
             pages = book.pages.all().order_by('page_number')
+        return render(request, 'details/book_pages.html', {'book': book, 'pages': pages})
     else:
         pages = book.pages.all().order_by('page_number')[0:10]
-        messages.warning(request, 'You exceed free book reading limit...')
-    return render(request, 'details/book_pages.html', {'book': book, 'pages': pages})
+        messages.warning(request, 'You have to login for reading more pages...')
+        return render(request, 'details/book_pages.html', {'book': book, 'pages': pages})
+
+def PRIVACY_POLICY(request):
+    return render(request, 'legal/privacy_policy.html')
+
+def REFUND_CANCELLATION(request):
+    return render(request, 'legal/refund_cancellation.html')
+
+def TEARMS(request):
+    return render(request, 'legal/tearms.html')
+
+def DISCLIMER(request):
+    return render(request, 'legal/disclimer.html')
+
+
+
+@login_required
+
+def add_review(request, slug):
+    book = Book.objects.get(slug=slug)
+    if request.method == 'POST':
+        rating = int(request.POST.get('rating'))
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+
+        # Check if user already submitted a review
+        existing_review = Review.objects.filter(book=book, user=request.user).first()
+        if existing_review:
+            messages.error(request, "You have already reviewed this book.")
+            return redirect('book_details', slug=book.slug)
+
+        # Create a new review
+        review = Review.objects.create(
+            book=book,
+            user=request.user,
+            rating=rating,
+            title=title,
+            content=content
+        )
+        review.save()
+        messages.success(request, "Your review has been added!")
+        return redirect('book_details', slug=book.slug)
+
+    return redirect('book_details', slug=book.slug)

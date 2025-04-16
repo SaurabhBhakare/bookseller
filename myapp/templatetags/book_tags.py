@@ -12,3 +12,16 @@ def discount_calculation(price,discount):
     sellprice = price
     sellprice = price - (price * discount/100)
     return math.floor(sellprice)
+
+@register.filter
+def mul(value, arg):
+    return float(value) * arg
+
+
+@register.filter
+def div(value, arg):
+    """Divide value by arg, return 0 if arg is 0."""
+    try:
+        return float(value) / float(arg)
+    except (ZeroDivisionError, ValueError):
+        return 0

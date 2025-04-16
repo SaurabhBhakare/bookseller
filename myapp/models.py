@@ -64,6 +64,15 @@ class Book(models.Model):
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse("book_details", kwargs={'slug': self.slug})
+    
+    def average_rating(self):
+        reviews = self.reviews.all()
+        if reviews.exists():
+            return sum([review.rating for review in reviews]) / reviews.count()
+        return 0
+
+    def total_reviews(self):
+        return self.reviews.count()
 
 class Usercart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -86,7 +95,7 @@ class Userbooks(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user.first_name + "-" + self.book.title
+        return self.user.username + "-" + self.book.title
     
 class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
@@ -99,7 +108,7 @@ class Payment(models.Model):
     status = models.BooleanField(default=False)
     
     def __str__(self):
-        return self.user.first_name + "-" + self.book.title
+        return self.user.username + "-" + self.book.title
     
 
 
@@ -154,3 +163,13 @@ class BookPage(models.Model):
     def __str__(self):
         return f"{self.book.title} - Page {self.page_number}"
 
+class Review(models.Model):
+    book = models.ForeignKey(Book, related_name="reviews", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.book.title}"

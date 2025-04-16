@@ -25,3 +25,4 @@ admin.site.register(Usercart)
 admin.site.register(Payment)
 
 admin.site.register(BookPage)
+admin.site.register(Review)
